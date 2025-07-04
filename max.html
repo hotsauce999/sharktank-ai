@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shark Tank AI</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- LiveKit Client UMD -->
+  <script src="https://cdn.jsdelivr.net/npm/livekit-client/dist/livekit-client.umd.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url('images/bg-main.png') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+       justify-content: center;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .container {
+      background-color: #0d0d25;
+      border-radius: 20px;
+      padding: 24px 20px;
+      width: 100%;
+      max-width: 400px;
+      color: white;
+      text-align: center;
+    }
+
+    .logo {
+      width: auto;
+      margin: 0 auto 10px;
+    }
+
+    .shark-tank-header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .shark-text {
+      width: auto;
+    }
+
+    .ai-box {
+      width: 40px;
+    }
+
+    .timer {
+      font-size: 34px;
+      margin-bottom: 10px;
+    }
+
+    .time-box {
+      display: inline-block;
+      background: #a020f0;
+      padding: 5px 10px;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 34px;
+    }
+
+    .video-frame {
+      margin: 15px 0;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .video-frame video {
+      width: 100%;
+      display: block;
+      border-radius: 10px;
+    }
+
+    .video-frame {
+    position: relative;
+  }
+
+    .name {
+      font-size: 36px;
+      font-weight: bold;
+      margin: 10px 0 5px;
+    }
+
+    .role {
+      font-size: 30px;
+      color: #ccc;
+      margin-bottom: 10px;
+    }
+
+    .controls {
+      margin-top: 10px;
+    }
+
+    .controls button {
+      margin: 5px 0;
+      padding: 10px;
+      width: 100%;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 30px;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background-color: #4ade80;
+      color: #111827;
+    }
+
+    .btn-primary:hover {
+      background-color: #22c55e;
+    }
+
+    .btn-secondary {
+      background-color: #60a5fa;
+      color: #111827;
+    }
+
+    .btn-secondary:hover {
+      background-color: #3b82f6;
+    }
+
+    .btn-danger {
+      background-color: #f87171;
+      color: #111827;
+    }
+
+    .btn-danger:hover {
+      background-color: #ef4444;
+    }
+
+    .input-area {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .input-area input {
+      flex: 1;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #333;
+      background-color: #1a1a2e;
+      color: white;
+    }
+
+    .end-button {
+      margin-top: 20px;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+    }
+
+    .btn-gradient-violet-wide {
+    width: 100%;
+    max-width: none;
+    background: linear-gradient(90deg, #8b5cf6 0%, #a21caf 100%);
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    padding: 20px 0;
+    font-size: 1.5rem;
+    border-radius: 20px;
+    box-shadow: 0 4px 24px 0 rgba(168, 85, 247, 0.2);
+    cursor: pointer;
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    transition: 
+        transform 0.07s,
+        box-shadow 0.2s;
+    display: block;
+  }
+
+  .btn-gradient-violet-wide:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 12px 0 rgba(168, 85, 247, 0.34);
+  }
+    .end-button img {
+      width: 100%;
+      max-width: 240px;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 20px 16px;
+      }
+
+      .shark-text {
+        width: 160px;
+      }
+
+      .logo {
+        width: 120px;
+      }
+
+      .end-button img {
+        max-width: 200px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      #emailModal > div {
+        padding: 1.5rem !important;
+        max-width: 98vw;
+        border-radius: 1.2rem !important;
+        min-height: 340px;
+        font-size: 90%;
+      }
+      #emailModal input[type="email"] {
+        height: 44px !important;
+        font-size: 15px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img class="logo" src="images/logo-ignite.png" alt="Ignite Logo" />
+    <div class="shark-tank-header">
+      <img class="shark-text" src="images/shark-tank-text.png" alt="Shark Tank Text" />
+    </div>
+    <div class="timer">TIME LEFT <span class="time-box">05:00</span></div>
+ <div class="video-frame aspect-[16/9] w-full bg-black rounded-2xl overflow-hidden relative">
+  <img 
+    id="videoPlaceholder"
+    src="images/max-avatar-placeholder1.jpg"
+    alt="AI Avatar Placeholder"
+    class="absolute inset-0 w-full h-full object-cover object-center z-10 transition-opacity duration-300"
+  />
+  <video
+    id="mediaElement"
+    autoplay
+    playsinline
+    class="absolute inset-0 w-full h-full object-cover object-center z-20"
+  ></video>
+</div>
+    <div class="name">Max Mindset</div>
+    <div class="role">The Strategic Analyst</div>
+
+    <div class="controls">
+      <div style="padding: 0 18px;">
+      <button id="startBtn" class="btn-gradient-violet-wide">Start Session</button>
+    </div>
+      <button id="micBtn" class="btn-secondary" style="display: none;">🎤 Hold Space to Talk</button>
+    </div>
+
+    <div class="input-area flex gap-2 mt-3">
+  <input
+    id="taskInput"
+    type="text"
+    placeholder="Type something..."
+    class="flex-1 px-4 py-2 rounded-lg border border-gray-700 bg-[#1a1a2e] text-white focus:outline-none focus:ring-2 focus:ring-purple-400"
+  />
+  <button
+    id="talkBtn"
+    type="button"
+    aria-label="Send Message"
+    class="bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-800 hover:to-blue-600 transition-colors 
+      rounded-full w-11 h-11 flex items-center justify-center shadow-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="white" stroke-width="2.5" class="w-6 h-6" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/>
+    </svg>
+  </button>
+</div>
+</div>
+
+  <button class="end-button" style="display: none;">
+    <img src="images/end-session-btn.png" alt="End Session Button" />
+  </button>
+
+<!-- Email Modal (optimized: padding, portrait responsive) -->
+<div id="emailModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-50 overflow-y-auto" style="display:none;">
+  <div class="email-box bg-[#111133] rounded-[2rem] w-full max-w-[420px] mx-3 my-8 p-7 md:p-10 flex flex-col items-center shadow-2xl text-center
+    border border-[#22224A]" style="min-height:370px;max-width: 80%;width: 100%;">
+    <h2 style="font-size: 36px;line-height: 46px;" class="text-2xl md:text-3xl font-bold text-white mb-1 md:mb-2 leading-tight" >Thanks for pitching<br>to the AI Sharks!</h2>
+    <p style="font-size: 30px;line-height: 40px;"  class="text-white text-base md:text-lg mb-5 md:mb-6 mt-2">You’ve just taken a bold step into the future of business.</p>
+    <form id="emailForm" class="w-full mb-5 md:mb-6 flex flex-col items-center">
+  <div class="w-full rounded-[2rem] p-6 flex flex-col items-center mb-3"
+  style="background: url('images/violet-gradient.png') center center/cover no-repeat;">
+      <label for="pitchEmail" style="font-size: 30px;line-height: 40px;" class="block text-base font-semibold text-white mb-3 tracking-wide text-center w-full">
+        ENTER EMAIL TO RECEIVE<br>YOUR PITCH TRANSCRIPT
+      </label>
+      <div class="flex items-center w-full justify-center">
+        <input
+          id="pitchEmail"
+          name="pitchEmail"
+          type="email"
+          required
+          autocomplete="email"
+          placeholder="Enter Email Address"
+          class="flex-1 h-14 px-5 rounded-xl text-lg border-none outline-none bg-white text-gray-900 placeholder-[#b9b9b9] font-semibold shadow-md"
+          style="max-width: 420px; font-size: 26px;height: 70px;"
+        />
+        <button
+          type="submit"
+          aria-label="Submit Email"
+          class="ml-[-45px] flex items-center justify-center w-11 h-11 rounded-xl bg-gradient-to-br from-[#259dff] to-[#3d6afc] hover:from-[#156dcc] hover:to-[#2653ca] shadow-md border-4 border-white"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#fff" stroke-width="2.5" class="w-6 h-6" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/>
+          </svg>
+        </button>
+      </div>
+
+  </div>
+</form>
+    <p style="font-size: 30px;line-height: 40px;" class="text-white text-[15px] md:text-base mb-6 md:mb-8 opacity-90 px-2">
+      Whether you’re ready to launch<br>or need a little more refining,<br>
+      <span class="font-semibold">your next big idea starts now.</span>
+    </p>
+   <button id="goHomeBtn" class="w-full">
+      <img src="images/home-btn.png" alt="HOME Button" class="w-full max-w-[330px] mx-auto" />
+    </button>
+  </div>
+</div>
+
+<!-- Processing Prompt Modal -->
+<div id="sentPromptModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-50" style="display:none;">
+  <div class="bg-[#18183d] border border-[#342282] rounded-2xl px-8 py-8 shadow-2xl flex flex-col items-center max-w-[350px] text-center">
+    <div class="text-3xl mb-4 text-indigo-400">📨</div>
+    <div class="text-white text-xl font-extrabold mb-2">Transcript in Process</div>
+    <div class="text-violet-200 mb-5 text-base leading-snug">
+      Your transcript is being processed<br>and will be sent to your email soon!
+    </div>
+    <button id="sentPromptOkBtn"
+      class="w-full py-3 rounded-2xl font-bold text-lg bg-gradient-to-r from-[#259dff] to-[#6f39fb] text-white shadow-md hover:from-[#156dcc] hover:to-[#3d28b0] transition-colors flex justify-center items-center gap-2">
+      OK
+    </button>
+  </div>
+</div>
+
+
+  <!-- JavaScript logic -->
+  <script defer src="max-app.js"></script>
+</body>
+</html>
