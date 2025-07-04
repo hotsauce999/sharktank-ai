@@ -303,11 +303,11 @@ document.getElementById("emailForm").addEventListener("submit", async function (
 
 document.getElementById("sentPromptOkBtn").addEventListener("click", function () {
   document.getElementById("sentPromptModal").style.display = "none";
-  window.location.href = "https://sharktank-ai.vercel.app/lexi.html"; // CHANGE this to your real homepage!
+  window.location.href = "https://sharktank-ai.vercel.app"; // CHANGE this to your real homepage!
 });
 
 document.getElementById("goHomeBtn").addEventListener("click", function () {
-  window.location.href = "https://sharktank-ai.vercel.app/lexi.html"; 
+  window.location.href = "https://sharktank-ai.vercel.app"; 
 });
 
   async function closeSession() {
