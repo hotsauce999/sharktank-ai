@@ -38,6 +38,21 @@ document.addEventListener("DOMContentLoaded", () => {
   loadingOverlay.style.display = "none";
   document.body.appendChild(loadingOverlay);
 
+  const spaceHint = document.createElement("div");
+  spaceHint.innerText = "Listening...";
+  spaceHint.style.position = "fixed";
+  spaceHint.style.bottom = "30px";
+  spaceHint.style.left = "50%";
+  spaceHint.style.transform = "translateX(-50%)";
+  spaceHint.style.padding = "10px 20px";
+  spaceHint.style.backgroundColor = "#28a745";
+  spaceHint.style.color = "white";
+  spaceHint.style.borderRadius = "10px";
+  spaceHint.style.boxShadow = "0 0 10px rgba(0,0,0,0.2)";
+  spaceHint.style.display = "none";
+  spaceHint.style.zIndex = "9999";
+  document.body.appendChild(spaceHint);
+
   let countdownInterval;
   let remainingTime = 600;
 
@@ -386,17 +401,20 @@ document.getElementById("goHomeBtn").addEventListener("click", function () {
   }
 
   document.addEventListener("keydown", (event) => {
-    if (event.code === "Space" && recognition && !recognizing && mode === "voice") {
-      event.preventDefault();
-      recognizing = true;
-      recognition.start();
-    }
-  });
+  if (event.code === "Space" && recognition && !recognizing && mode === "voice") {
+    event.preventDefault();
+    recognizing = true;
+    recognition.start();
+    spaceHint.style.display = "block";
+  }
+});
 
-  document.addEventListener("keyup", (event) => {
-    if (event.code === "Space" && recognition && recognizing && mode === "voice") {
-      event.preventDefault();
-      recognition.stop();
-    }
-  });
+document.addEventListener("keyup", (event) => {
+  if (event.code === "Space" && recognition && recognizing && mode === "voice") {
+    event.preventDefault();
+    recognition.stop();
+    recognizing = false;
+    spaceHint.style.display = "none";
+  }
+});
 });
