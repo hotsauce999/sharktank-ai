@@ -18,6 +18,11 @@
       min-width: 100vw;
       font-family: 'Montserrat', Arial, sans-serif;
     }
+    #myVideo{
+      border-radius: 35px;
+      width: 80%;
+      margin: 30px auto 40px auto;
+    }
     .portrait-frame {
        position: relative;
       width: 100%;
@@ -275,13 +280,16 @@
   <div class="portrait-frame">
     <!-- Screen 1: Welcome / Home -->
     <div id="screen1" class="screen active">
+    
       <img src="images/logo-ignite.png" alt="Ignite Logo" class="logo" />
       <div class="banner">
          <div class="shark-tank-header">
           <img class="shark-text" src="images/shark-tank-text.png" alt="Shark Tank Text" />
         </div>
       </div>
-      <img src="images/shark-tank-avatars.jpg" alt="Sharks Group" class="group-img"/>
+      <video autoplay muted loop id="myVideo">
+        <source src="video/intro-vid.mp4" type="video/mp4">
+      </video>
       <img 
         src="images/start-btn.png" 
         alt="Start" 
